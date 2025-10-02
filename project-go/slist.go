@@ -143,3 +143,29 @@ func (l *SinglyLinkedList) FromSlice(data []int) {
 		l.PushBack(v)
 	}
 }
+
+// Удаление из головы
+func (l *SinglyLinkedList) DelFront() bool {
+	if l.head == nil {
+		return false
+	}
+	l.head = l.head.next
+	return true
+}
+
+// Удаление из хвоста
+func (l *SinglyLinkedList) DelBack() bool {
+	if l.head == nil {
+		return false
+	}
+	if l.head.next == nil {
+		l.head = nil
+		return true
+	}
+	curr := l.head
+	for curr.next.next != nil {
+		curr = curr.next
+	}
+	curr.next = nil
+	return true
+}

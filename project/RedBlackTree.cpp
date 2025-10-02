@@ -1,5 +1,10 @@
 #include "RedBlackTree.h"
+
 #include <iostream>
+#include <string>
+#include <vector>
+#include <functional>
+#include <utility>
 
 // ---------------- Node ----------------
 Node::Node(int val) { // конструктор узла
@@ -154,11 +159,23 @@ bool RedBlackTree::contains(int key) { // проверка наличия
     return search(root, key) != NIL;
 }
 
-// Обход in-order (печать)
-void RedBlackTree::inorder(Node* node) { // симметричный обход
+std::string RedBlackTree::getNodeInfo(Node* node) { // информация об узле
+    if (node == NIL) return "";
+    std::string info = std::to_string(node->data);
+    info += " (";
+    if (node == root) {
+        info += "ROOT, ";
+    }
+    info += (node->color == BLACK ? "BLACK" : "RED");
+    info += ")";
+    return info;
+}
+
+
+void RedBlackTree::inorder(Node* node) { // обход in-order
     if (node != NIL) {
         inorder(node->left);
-        std::cout << node->data << " ";
+        std::cout << getNodeInfo(node) << " ";
         inorder(node->right);
     }
 }
@@ -168,7 +185,18 @@ void RedBlackTree::print() { // вывод дерева
     std::cout << std::endl;
 }
 
-// Минимальный элемент в поддереве
+std::vector<int> RedBlackTree::toVector() const { // преобразовать в вектор
+    std::vector<int> res;
+    std::function<void(Node*)> dfs = [&](Node* n) {
+        if (n == NIL) return;
+        dfs(n->left);
+        res.push_back(n->data);
+        dfs(n->right);
+    };
+    dfs(root);
+    return res;
+}
+
 Node* RedBlackTree::minimum(Node* node) { // поиск минимума
     while (node->left != NIL) {
         node = node->left;
@@ -176,7 +204,6 @@ Node* RedBlackTree::minimum(Node* node) { // поиск минимума
     return node;
 }
 
-// Перемещение поддеревьев (нужно для удаления)
 void RedBlackTree::transplant(Node* u, Node* v) { // замена поддерева
     if (u->parent == nullptr) {
         root = v;
@@ -188,7 +215,6 @@ void RedBlackTree::transplant(Node* u, Node* v) { // замена поддере
     v->parent = u->parent;
 }
 
-// Удаление элемента
 void RedBlackTree::remove(int key) { // удаление элемента
     Node* z = search(root, key);
     if (z == NIL) {
@@ -230,8 +256,7 @@ void RedBlackTree::remove(int key) { // удаление элемента
     }
 }
 
-// Балансировка после удаления
-void RedBlackTree::fixDelete(Node* x) { // восстановление свойств после удаления
+void RedBlackTree::fixDelete(Node* x) { // балансировка после удаления
     while (x != root && x->color == BLACK) {
         if (x == x->parent->left) {
             Node* w = x->parent->right; // брат
@@ -288,4 +313,55 @@ void RedBlackTree::fixDelete(Node* x) { // восстановление свой
         }
     }
     x->color = BLACK;
+}
+
+std::pair<bool,int> RedBlackTree::validateHelper(Node* node) const { // проверка свойств дерева
+    if (node == NIL) {
+        return {true, 1}; // NIL считается чёрным листом
+    }
+
+    // левое и правое поддеревья
+    auto leftRes = validateHelper(node->left);
+    auto rightRes = validateHelper(node->right);
+
+    if (!leftRes.first || !rightRes.first) {
+        return {false, 0};
+    }
+
+    // чёрная высота левой и правой ветви должны совпадать
+    if (leftRes.second != rightRes.second) {
+        return {false, 0};
+    }
+
+    // правило: у красного узла не может быть красного ребёнка
+    if (node->color == RED) {
+        if (node->left != NIL && node->left->color == RED) return {false, 0};
+        if (node->right != NIL && node->right->color == RED) return {false, 0};
+    }
+
+    int add = (node->color == BLACK) ? 1 : 0;
+    return {true, leftRes.second + add};
+}
+
+bool RedBlackTree::validate() { // результат проверки
+    // пустое дерево — валидно
+    if (root == NIL) {
+        std::cout << "Проверка: пустое дерево — OK\n";
+        return true;
+    }
+
+    // корень должен быть чёрным
+    if (root->color != BLACK) {
+        std::cout << "Ошибка проверки: корень не ЧЁРНЫЙ\n";
+        return false;
+    }
+
+    auto res = validateHelper(root);
+    if (!res.first) {
+        std::cout << "Ошибка проверки: нарушены свойства (красный родитель или разная чёрная высота)\n";
+        return false;
+    }
+
+    std::cout << "Проверка пройдена: дерево удовлетворяет свойствам (чёрная высота = " << res.second << ")\n";
+    return true;
 }

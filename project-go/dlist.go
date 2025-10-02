@@ -157,3 +157,33 @@ func (l *DoublyLinkedList) FromSlice(data []int) {
 		l.PushBack(v)
 	}
 }
+
+// Удаление из головы
+func (l *DoublyLinkedList) DelFront() bool {
+	if l.head == nil {
+		return false
+	}
+	if l.head.next == nil {
+		l.head = nil
+		l.tail = nil
+		return true
+	}
+	l.head = l.head.next
+	l.head.prev = nil
+	return true
+}
+
+// Удаление из хвоста
+func (l *DoublyLinkedList) DelBack() bool {
+	if l.tail == nil {
+		return false
+	}
+	if l.tail.prev == nil {
+		l.head = nil
+		l.tail = nil
+		return true
+	}
+	l.tail = l.tail.prev
+	l.tail.next = nil
+	return true
+}

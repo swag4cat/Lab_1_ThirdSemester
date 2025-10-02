@@ -45,14 +45,15 @@ void saveTreeToFile(const std::string& filename, RedBlackTree& tree) { // сох
     std::ofstream fout(filename);
     if (!fout.is_open()) return;
 
-    std::stringstream buffer;
-    std::streambuf* oldCout = std::cout.rdbuf(buffer.rdbuf());
-    tree.print();
-    std::cout.rdbuf(oldCout);
-
-    fout << buffer.str();
+    std::vector<int> keys = tree.toVector();
+    for (size_t i = 0; i < keys.size(); ++i) {
+        fout << keys[i];
+        if (i + 1 < keys.size()) fout << " ";
+    }
+    fout << std::endl;
     fout.close();
 }
+
 
 // ----- Вспомогательные функции для SinglyLinkedList -----
 void loadListFromFile(const std::string& filename, SinglyLinkedList& list) { // загрузка односвязного списка
@@ -178,6 +179,14 @@ void CommandProcessor::execute(const std::string& query, const std::string& file
         loadTreeFromFile(filename, tree);
         std::cout << "-> " << (tree.contains(value) ? "TRUE" : "FALSE") << std::endl;
     }
+
+    else if (command == "TVALIDATE") { // проверка дерева на свойства
+        RedBlackTree tree;
+        loadTreeFromFile(filename, tree);
+        bool ok = tree.validate();
+        std::cout << "-> " << (ok ? "VALID" : "INVALID") << std::endl;
+    }
+
     else if (command == "PRINT") { // печать дерева
         RedBlackTree tree;
         loadTreeFromFile(filename, tree);

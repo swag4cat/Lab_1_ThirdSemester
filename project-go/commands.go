@@ -239,6 +239,20 @@ func handleSListCommand(list *SinglyLinkedList, parts []string) {
 				fmt.Println("-> не найден", val)
 			}
 
+		case "FDELFRONT":
+			if list.DelFront() {
+				fmt.Println("-> удалён первый элемент")
+			} else {
+				fmt.Println("Ошибка: список пуст")
+			}
+
+		case "FDELBACK":
+			if list.DelBack() {
+				fmt.Println("-> удалён последний элемент")
+			} else {
+				fmt.Println("Ошибка: список пуст")
+			}
+
 		case "PRINTF":
 			fmt.Print("-> ")
 			list.Print()
@@ -359,6 +373,20 @@ func handleDListCommand(dlist *DoublyLinkedList, parts []string) {
 				fmt.Println("-> найден", val)
 			} else {
 				fmt.Println("->", val, "не найден")
+			}
+
+		case "LDELFRONT":
+			if dlist.DelFront() {
+				fmt.Println("-> удалён первый элемент")
+			} else {
+				fmt.Println("Ошибка: список пуст")
+			}
+
+		case "LDELBACK":
+			if dlist.DelBack() {
+				fmt.Println("-> удалён последний элемент")
+			} else {
+				fmt.Println("Ошибка: список пуст")
 			}
 
 		case "PRINTL":

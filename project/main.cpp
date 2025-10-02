@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) { // главная функция
             << "  TINSERT <x>         - вставить\n"
             << "  TDEL <x>            - удалить\n"
             << "  TGET <x>            - поиск\n"
+            << "  TVALIDATE           - проверка дерева на свойства\n"
             << "  PRINT               - вывести дерево (in-order)\n";
             return 0;
         }
