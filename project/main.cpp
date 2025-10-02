@@ -43,6 +43,8 @@ int main(int argc, char* argv[]) { // главная функция
             << "  FINSERTBEFORE <t> <x> - вставить перед t\n"
             << "  FINSERTAFTER <t> <x>  - вставить после t\n"
             << "  FDEL <x>            - удалить по значению\n"
+            << "  FDELFRONT <x>       - удалить первый элемент\n"
+            << "  FDELBACK <x>        - удалить последний элемент\n"
             << "  FCONTAINS <x>       - поиск элемента\n"
             << "  FGET <i>            - получить по индексу\n"
             << "  PRINTF              - вывести список\n";
@@ -55,6 +57,8 @@ int main(int argc, char* argv[]) { // главная функция
             << "  LINSERTBEFORE <t> <x> - вставить перед t\n"
             << "  LINSERTAFTER <t> <x>  - вставить после t\n"
             << "  LDEL <x>            - удалить по значению\n"
+            << "  LDELFRONT <x>       - удалить первый элемент\n"
+            << "  LDELBACK <x>        - удалить последний элемент\n"
             << "  LCONTAINS <x>       - поиск элемента\n"
             << "  LGET <i>            - получить по индексу\n"
             << "  PRINTL              - вывести список\n";

@@ -303,6 +303,24 @@ void CommandProcessor::execute(const std::string& query, const std::string& file
         std::cout << "-> вставлен " << value << " после " << target << std::endl;
     }
 
+    else if (command == "FDELFRONT") { // удаление первого элемента
+        SinglyLinkedList list;
+        loadListFromFile(filename, list);
+        bool ok = list.delFront();
+        saveListToFile(filename, list);
+        if (ok) std::cout << "-> удалён первый элемент" << std::endl;
+        else std::cout << "Ошибка: список пуст" << std::endl;
+    }
+    else if (command == "FDELBACK") { // удаление последнего элемента
+        SinglyLinkedList list;
+        loadListFromFile(filename, list);
+        bool ok = list.delBack();
+        saveListToFile(filename, list);
+        if (ok) std::cout << "-> удалён последний элемент" << std::endl;
+        else std::cout << "Ошибка: список пуст" << std::endl;
+    }
+
+
     else if (command == "FCONTAINS") { // проверка наличия элемента
         int value; iss >> value;
         SinglyLinkedList list;
@@ -375,6 +393,23 @@ void CommandProcessor::execute(const std::string& query, const std::string& file
         loadDoublyListFromFile(filename, list);
         bool found = list.contains(value);
         std::cout << "-> " << (found ? "найден " : "не найден ") << value << std::endl;
+    }
+
+    else if (command == "LDELFRONT") { // удаление первого элемента
+        DoublyLinkedList list;
+        loadDoublyListFromFile(filename, list);
+        bool ok = list.delFront();
+        saveDoublyListToFile(filename, list);
+        if (ok) std::cout << "-> удалён первый элемент" << std::endl;
+        else std::cout << "Ошибка: список пуст" << std::endl;
+    }
+    else if (command == "LDELBACK") { // удаление последнего элемента
+        DoublyLinkedList list;
+        loadDoublyListFromFile(filename, list);
+        bool ok = list.delBack();
+        saveDoublyListToFile(filename, list);
+        if (ok) std::cout << "-> удалён последний элемент" << std::endl;
+        else std::cout << "Ошибка: список пуст" << std::endl;
     }
 
     // ---- STACK ----

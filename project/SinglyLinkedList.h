@@ -22,6 +22,8 @@ public:
     void insertBefore(int target, int value);           // до элемента
     void insertAfter(int target, int value);            // после элемента
     bool delByValue(int value);                         // удалить по значению
+    bool delFront();                                    // удалить первый элемент
+    bool delBack();                                     // удалить последний элемент
     int get(int index);                                 // получить по индексу
     void print() const;                                 // вывод
     std::vector<int> toVector() const;                  // вернуть все элементы

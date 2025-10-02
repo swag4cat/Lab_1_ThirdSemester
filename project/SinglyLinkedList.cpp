@@ -122,3 +122,33 @@ bool SinglyLinkedList::contains(int value) const { // проверить нал�
     }
     return false;
 }
+
+bool SinglyLinkedList::delFront() { // удалить первый элемент
+    if (!head) {
+        std::cerr << "Ошибка: список пуст\n";
+        return false;
+    }
+    FNode* tmp = head;
+    head = head->next;
+    delete tmp;
+    return true;
+}
+
+bool SinglyLinkedList::delBack() { // удалить последний элемент
+    if (!head) {
+        std::cerr << "Ошибка: список пуст\n";
+        return false;
+    }
+    if (!head->next) { // только один элемент
+        delete head;
+        head = nullptr;
+        return true;
+    }
+    FNode* curr = head;
+    while (curr->next->next) {
+        curr = curr->next;
+    }
+    delete curr->next;
+    curr->next = nullptr;
+    return true;
+}

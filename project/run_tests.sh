@@ -57,6 +57,8 @@ echo "==================================="
 ./main --file test_slist.txt --query "FCONTAINS slist 20"
 ./main --file test_slist.txt --query "FDEL slist 20"
 ./main --file test_slist.txt --query "FDEL slist 999"     # ошибка
+./main --file test_slist.txt --query "FDELFRONT slist 15"
+./main --file test_slist.txt --query "FDELBACK slist 10"
 ./main --file test_slist.txt --query "PRINTF slist"
 
 echo ""
@@ -72,7 +74,8 @@ echo "=================================="
 ./main --file test_dlist.txt --query "LGET dlist 0"
 ./main --file test_dlist.txt --query "LCONTAINS dlist 75"
 ./main --file test_dlist.txt --query "LDEL dlist 50"
-./main --file test_dlist.txt --query "LDEL dlist 300"
+./main --file test_slist.txt --query "LDELFRONT dlist 200"
+./main --file test_slist.txt --query "LDELBACK dlist 100"
 ./main --file test_dlist.txt --query "PRINTL dlist"
 
 echo ""

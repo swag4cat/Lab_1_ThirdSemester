@@ -289,4 +289,3 @@ void RedBlackTree::fixDelete(Node* x) { // восстановление свой
     }
     x->color = BLACK;
 }
-

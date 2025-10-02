@@ -121,3 +121,29 @@ bool DoublyLinkedList::contains(int value) const { // проверить нал�
     }
     return false;
 }
+
+bool DoublyLinkedList::delFront() { // удалить первый элемент
+    if (!head) {
+        std::cerr << "Ошибка: список пуст\n";
+        return false;
+    }
+    LNode* tmp = head;
+    head = head->next;
+    if (head) head->prev = nullptr;
+    else tail = nullptr; // список стал пуст
+    delete tmp;
+    return true;
+}
+
+bool DoublyLinkedList::delBack() { // удалить последний элемент
+    if (!tail) {
+        std::cerr << "Ошибка: список пуст\n";
+        return false;
+    }
+    LNode* tmp = tail;
+    tail = tail->prev;
+    if (tail) tail->next = nullptr;
+    else head = nullptr; // список стал пуст
+    delete tmp;
+    return true;
+}
